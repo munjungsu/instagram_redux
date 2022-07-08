@@ -1,0 +1,30 @@
+{
+  "user": [
+    {
+      "id": "mjcah2013",
+      "mail": "mjcah2013@naver.com",
+      "url": "https://source.unsplash.com/random/600x500",
+      "msg": "안녕하세요",
+      "like" : 39
+     
+    },
+    {
+      "id": "bording",
+      "mail": "bording@naver.com",
+      "url": "https://source.unsplash.com/random/900x500",
+      "msg": "반갑습니다",
+      "like" : 23
+     
+    },
+    {
+      "id": "bori",
+      "mail": "bori@naver.com",
+      "url": "https://source.unsplash.com/random/700x1080",
+      "msg" : "보리입니다.",
+      "like" : 50
+      
+      
+    }
+    
+  ]
+}

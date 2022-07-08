@@ -1,0 +1,337 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #eee;
+}
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width:400px;
+    margin: 50px auto;
+    background-color:white;
+    border: 2px solid rgb(222, 222, 222);
+    text-align: center;
+        h1 {
+            padding : 30px 0;
+        }
+}
+.form_control {
+    width:100%;
+    height : 30px;
+    margin: 5px 0;
+    
+}
+.login_form {
+    width:300px;
+    margin: auto;
+    position: relative;
+}
+.box {
+    width:308px;
+    border-top: 1px solid #eee;
+    
+    
+        .line {
+            position : absolute;
+            left:110px;
+            top : 140px;
+            width: 80px;
+            background-color: white;
+            
+        }
+        a {
+            display: block;
+            text-decoration: none;
+            color: rgb(62, 62, 188);
+            padding-top: 10px;
+            
+        }
+       
+}
+.box2 {
+    width:308px;
+    border: 1px solid #eee;
+    
+    margin: 20px auto;
+
+        a {
+            color: #0095f6;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+}
+.btn {
+    width : 308px;
+    background-color:rgb(67, 225, 225);
+    text-align: center;
+    border-radius: 5px;
+    height: 30px;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.footer {
+    
+    a {
+        display: inline-block;
+        
+        width:150px;
+        
+        padding: 0 10px;
+        margin-bottom: 30px;
+        
+        
+    }
+    img {
+       width: 100%;
+       height:38px;
+       display: block;
+       border-radius: 5px;
+
+       
+    }
+}
+
+//Top CSS
+.sticky{
+    position: sticky;
+}
+
+.Top {
+    width: 100%;
+    background-color:white;
+    
+    
+}
+.headerTop {
+    width : 1000px;
+    margin : auto;
+    height:80px;
+    
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    
+
+    
+
+    h2 {
+        font-size: 30px;
+    }
+    
+
+   
+    
+    .leftBox {
+        
+        
+        height : 80px;
+        width : 330px;
+        
+    }
+    .rightBox {
+        height : 80px;
+        display:flex;
+        justify-content: center;
+        align-items : center;
+        width : 330px;
+        img {
+            width : 30px;
+            height : 30px;
+        }
+        
+
+        ul {
+            list-style: none;
+            
+            padding: 0;
+        }
+        li {
+            float: left;
+            padding: 10px;
+    
+            a {
+                display: block;
+            }
+            .btn_logout {
+                border : none;
+                background-color:royalblue;
+                color: white;
+                margin-top: 5px;
+            }
+        }
+        
+    }
+    .midBox {
+        height : 80px;
+        
+        width : 330px;
+        
+        
+        
+       
+        
+
+        input {
+            height: 30px;
+            width : 200px;
+            margin-top: 25px;
+            background-color:#eee;
+            border-radius: 5px;
+            border : none;
+            
+        }
+        
+    }
+}
+
+//Contents CSS
+.main {
+    width :1000px;
+    margin: 30px auto;
+    float:none;
+    display: block;
+    clear: both;
+
+    
+    .content {
+        width : 600px;
+        border-radius: 20px;
+        
+        
+       
+        
+        background-color:white;
+        margin: auto;
+        border-radius: 5px;
+        .ImgBox {
+            width :600px;
+            height :500px;
+            img {
+                width : 100%;
+                height : 100%;
+                background-size: cover;
+                size : cover;
+            }
+        }
+        ul {
+            list-style: none;
+            margin : 0;
+            padding : 0;
+
+            
+        }
+        
+        a {
+            padding : 10px;
+            text-decoration: none;
+            color : black;
+            font-size : 18px;
+            font-weight : bold;
+        }
+        .list_top {
+            
+            
+            height : 75px;
+            margin-top: 50px;
+            ul {
+                float:none;
+                display: block;
+                clear: both;
+            }
+            li {
+                float: left;
+            }
+            span {
+                display: block;
+                margin-top: 25px;
+                font-weight: bold;
+            }
+
+            .profile {
+                width :50px;
+                height :50px;
+                border-radius : 50%;
+                padding: 10px;
+            }
+        }
+
+       .icon {
+        width : 50px;
+        height : 50px;
+       }
+       .like {
+        font-weight: bold;
+        margin-left: 20px;
+       }
+       .footer {
+
+        div {
+            display : inline-block;
+            box-sizing: border-box;
+            padding:10px;
+        }
+        .id {
+            text-align: center;
+            width :20%;
+            font-weight: bold;
+            
+        }
+        .content {
+            
+            width : 80%;
+            
+        }
+        .name {
+            font-weight: bold;
+        }
+       }
+
+      .coments {
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+        width : 100%;
+        height : 50px;
+        
+        display : flex;
+        justify-content : center;
+        align-items : center;
+        .text {
+            width : 450px;
+            float: left;
+            border : none;
+            height: 30px;
+        }
+        .smile {
+           img {
+            width : 30px;
+            height : 30px;
+           }
+            
+            width : 50px;
+            height : 30px;
+            
+            float: left;
+        }
+        .btn_coments {
+            width : 50px;
+            height : 30px;
+            background-color:white;
+            color :rgb(62, 62, 188);
+            border: none;
+            float: left;
+        }
+      }
+    }
+    
+}
