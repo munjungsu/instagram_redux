@@ -1,20 +1,9 @@
+import axios from 'axios';
 import React from 'react';
 import style from '../scss/style.module.scss';
-const FeedList = ({user}) => {
 
-    
-    const inputQuery = React.useRef();
-    const [addcom, setAddCom] = React.useState([]);
-    
-    const handleClick = (e)=>{
-        e.preventDefault();
-        const value = inputQuery.current.value;
-        
-        
-        setAddCom([...addcom, {com : value, localId : localStorage.id}]);
-        console.log(value);
-    }
-    
+
+const FeedList = ({user}) => {
     
     return (
         
@@ -23,6 +12,7 @@ const FeedList = ({user}) => {
         {user && user.map((v)=>{
             
              return (
+                
                 <article className={style.content} key={v.id}>
                 <ul>
                 <li className={style.feed}>
@@ -73,13 +63,18 @@ const FeedList = ({user}) => {
                         
                     
                 </div>
-               <div className={style.coments}>
+                <div className={style.comentsWrap}>
                 
+                </div>
+               <div className={style.coments}>
+                   
                     <div className={style.smile}>
                         <img src={process.env.PUBLIC_URL + '/assets/img/smile.png'}></img>
                     </div>
-                        <input type="text" name="addcom" className={style.text} ref={inputQuery} placeholder="댓글추가.."/>
-                    <button onClick={handleClick} className={style.btn_coments}>게시</button>
+                    
+                        <input type="text" name="addcom" className={style.text}   placeholder="댓글추가.."/>
+                    <button className={style.btn_coments}>게시</button>
+                    
                 
                </div>
                 </li>
@@ -87,6 +82,7 @@ const FeedList = ({user}) => {
             </article>
             )
          })}
+         
     </div>
     );
 };

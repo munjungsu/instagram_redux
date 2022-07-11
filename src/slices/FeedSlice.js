@@ -30,6 +30,7 @@ export const feedSlice = createSlice({
             }
         },
         [getFeed.fulfilled] : (state, {payload})=>{
+
             return {
                 ...state,
                 rt : payload.status,

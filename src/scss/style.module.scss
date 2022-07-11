@@ -295,13 +295,20 @@ ul {
             font-weight: bold;
         }
        }
-
+       .comentsWrap {
+        width : 100%;
+        background-color:red;   
+    }
       .coments {
         border-top: 1px solid #eee;
         border-bottom: 1px solid #eee;
         text-align: center;
         width : 100%;
         height : 50px;
+        float : none;
+        display: block;
+        content: "";
+        clear: both;
         
         display : flex;
         justify-content : center;

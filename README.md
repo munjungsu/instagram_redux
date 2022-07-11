@@ -1,70 +1,203 @@
-# Getting Started with Create React App
+# 인스타그램 클론코딩/redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 프로젝트 구조
+```
+public
+├── assets
+│   ├── img
+├── data
+│   └── user.json
+├── index.html
+src
+├── Components
+│   ├── FeedLis.js
+│   └── Top.js
+├── pages
+│   ├── Feed.js
+│   └── Login.js
+├── slices
+│   └── FeedSlice.js
+├── App.js
+├── store.js
+├── scss
+│   ├──style.module.scss
+└── index.js
+```
 
-## Available Scripts
+### 로그인 기능
+##### useRef()속성으로 input 값의 접근, 임시 로그인 계정정보와 input값의 value가 일치한다면 localStorage에 id,pw 등록한 뒤 useNavigate()속성으로 Feed페이지로 이동하게 하였습니다.
+-----------
+```
+//임시 로그인 계정정보
+const userInfo = {
+    id : 'mjcah2013',
+    pw : '1234@'
+}
+```
 
-In the project directory, you can run:
+```
+const login () =>{
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+const [userid, setUserid] = React.useState('');
+const [userpw, setUserpw] = React.useState(''); 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+const useridRef = React.useRef();
+const userpwRef = React.useRef();
 
-### `yarn test`
+const handleSubmit = ()=>{
+        const idvalue = useridRef.current.value;
+        const pwvalue = userpwRef.current.value;
+        setUserid(idvalue);
+        setUserpw(pwvalue);
+        
+        if(idvalue === userInfo.id && pwvalue === userInfo.pw){
+            alert('로그인 성공')
+            localStorage.setItem('id', idvalue);
+            localStorage.setItem('pw', pwvalue);
+            navigate('/feed');
+        }
+        else {
+            alert('아이디와 비밀번호가 다릅니다.');
+            idvalue.current.value = '';
+            pwvalue.current.value = '';
+        }
+        
+    }
+}
+```
+### 로그아웃 기능
+##### 로그아웃 버튼 클릭시 localStorage에 등록했던 id,pw를 지우고 로그인 페이지로 이동하게 하였습니다.
+---------
+```
+ const onDelete = ()=>{
+        localStorage.removeItem('id');
+        localStorage.removeItem('pw');
+        navigate('/login');
+    }
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### slices
+##### createAsyncThunk를 사용하여 데이터를 axios로 받아올 함수 구현, 받아온 데이터를 새롭게 담을 createSlice구현 
+------
+```
+export const getFeed = createAsyncThunk("GET_FEED_LIST", async(payload, {rejectWithValue})=>{
+    let result = null;
+    try {
+        result = await axios.get(`${process.env.PUBLIC_URL}/data/user.json`)
+    }catch(err){
+        result = rejectWithValue(err.response);
+    }
+    return result;
+});
+```
+```
+export const feedSlice = createSlice({
+    name : 'feed',
+    initialState : {
+        rt : null,
+        rtmsg : null,
+        item : [],
+        loading : false,
+    },
 
-### `yarn build`
+    reducers : {},
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    extraReducers : {
+        [getFeed.pending] : (state, {payload})=>{
+            return {
+                ...state,
+                loading : true,
+            }
+        },
+        [getFeed.fulfilled] : (state, {payload})=>{
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+            return {
+                ...state,
+                rt : payload.status,
+                rtmsg : payload.statusText,
+                item : payload.data,
+                loading : false,
+            }
+        },
+        [getFeed.rejected] : (state, {payload})=>{
+            return {
+                ...state,
+                rt : payload.status ? payload.status : 500,
+                rtmsg : payload.statusText ? payload.statusText : 'Server Error',
+                item : payload.data,
+                loading : false
+            }
+        }
+    }
+});
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
 
-### `yarn eject`
+### store.js
+새로만든 FeedSlice에 name값을 스토어에 연결시킨다.
+--------
+```
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { createLogger } from 'redux-logger';
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+import FeedSlice from './slices/FeedSlice';
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+const logger = createLogger();
+const store = configureStore({
+   
+    reducer: {
+        'feed' : FeedSlice,
+        
+    },    
+   
+    
+    middleware: [...getDefaultMiddleware({serializableCheck: false}), logger], 
+    });
+    export default store;
+```
+### 피드
+##### useSelector()로 slice에 name속성을 연결, dispatch함수로 데이터를 받아올때 만든 함수를 구독시킵니다.
+------
+```
+const Feed = () => {
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    const dispatch = useDispatch();
+    const {rt, rtmsg, item, loading} = useSelector((state)=>state.feed);
+    React.useEffect(()=>{
+        dispatch(getFeed());
+        
+    }, [])
+    
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    return (
+        <div>
+            {loading && (
+                <Loading />
+            )}
+            {rt !== 200 ? (
+                <div>
+                    {rt},{rtmsg}
+                </div>
+            ) : (
+                <div>
+                    <Top />
+                    <FeedList user={item.user}/>
+                    
+                </div>  
+            )}
+        </div>
+    );
+};
+```
+### 피드리스트
+Feed.js에서 props로 받아온 데이터를 map()함수를 사용하여 출력
+--------
+```
+const FeedList = ({user}) => {
+    {user && user.map((v, i)=>(
+        ....
+    ))}
+}
+```
